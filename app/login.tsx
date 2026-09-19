@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -20,6 +21,8 @@ import { useAuth } from '@/context/AuthContext';
 import { useColors } from '@/hooks/useColors';
 
 const LOGO_URL = 'https://kochex.com/wp-content/uploads/2025/12/logokoch.png';
+const APK_DOWNLOAD_URL =
+  'https://github.com/sercancilingir/kochlojistik/actions/runs/35428873356';
 
 const FEATURES = [
   { icon: 'clock' as const, label: 'Sefer Süre Takip', desc: 'RoRo & Liman Süreci' },
@@ -181,6 +184,26 @@ export default function LoginScreen() {
                 )}
               </LinearGradient>
             </Pressable>
+
+            {/* Android download */}
+            <Pressable
+              onPress={() => {
+                void Linking.openURL(APK_DOWNLOAD_URL);
+              }}
+              accessibilityRole="link"
+              accessibilityLabel="Android APK indir"
+              testID="button-download-apk"
+              style={({ pressed }) => [
+                styles.downloadBtn,
+                { borderColor: colors.border, opacity: pressed ? 0.7 : 1 },
+              ]}
+            >
+              <Feather name="download" size={16} color={colors.amber} />
+              <Text style={[styles.downloadBtnText, { color: colors.foreground }]}>
+                Android APK İndir
+              </Text>
+              <Feather name="external-link" size={14} color={colors.mutedForeground} />
+            </Pressable>
           </View>
 
           {/* Footer */}
@@ -331,6 +354,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Inter_600SemiBold',
     letterSpacing: 0.3,
+  },
+  downloadBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    height: 46,
+    borderRadius: 10,
+    borderWidth: 1,
+    marginTop: 12,
+  },
+  downloadBtnText: {
+    fontSize: 14,
+    fontFamily: 'Inter_500Medium',
   },
   footer: {
     fontSize: 11,
